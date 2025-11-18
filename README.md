@@ -1,62 +1,130 @@
-A feature-rich email management system with real-time email synchronization, AI-powered categorization, Slack notifications, suggested replies, and searchable storage using Elasticsearch.
+# OneBox for Emails
 
-Backend Features
+A feature-rich email management system with real-time email sync, AI categorization, Slack notifications, suggested replies, and searchable storage using Elasticsearch.
 
-Real-Time Email Synchronization
+## Backend Features
 
-Sync multiple IMAP accounts (minimum 2).
+1. **Real-Time Email Sync**  
+   - Sync multiple IMAP accounts (min 2)  
+   - Fetch last 30 days of emails  
+   - Use persistent IMAP connections (IDLE mode)
 
-Fetch last 30 days of emails.
+2. **Searchable Storage with Elasticsearch**  
+   - Store emails locally with Docker  
+   - Index emails for fast search  
+   - Filter by folder & account
 
-Use persistent IMAP connections (IDLE mode) for real-time updates.
+3. **AI-Based Email Categorization**  
+   - Labels: Interested, Meeting Booked, Not Interested, Spam, Out of Office
 
-Searchable Storage with Elasticsearch
+4. **Slack & Webhook Integration**  
+   - Slack notifications for Interested emails  
+   - Trigger webhooks for automation
 
-Store emails in a locally hosted Elasticsearch instance (via Docker).
+5. **AI-Powered Suggested Replies**  
+   - Store product & agenda in vector database  
+   - Use RAG with LLM for reply suggestions
 
-Implement indexing for fast search.
+6. **Frontend Interface**  
+   - Display emails  
+   - Filter by folder/account  
+   - Show AI categorization
 
-Filter emails by folder and account.
+## Tech Stack
 
-AI-Based Email Categorization
+Node.js, TypeScript, Express, Dotenv, LangChain + Chroma, IMAP (`imapflow`), Elasticsearch, OpenAI/Gemini API, Slack Webhooks, Mailparser
 
-Categorizes emails into: Interested, Meeting Booked, Not Interested, Spam, Out of Office.
+## Folder Structure
 
-Slack & Webhook Integration
+```
+backend/
+ ├─ src/
+ │  ├─ controllers/
+ │  ├─ routes/
+ │  ├─ imap/
+ │  ├─ services/
+ │  └─ utils/
+ └─ index.ts
+.env
+package.json
+tsconfig.json
+docker-compose.yml
+```
 
-Sends Slack notifications for new Interested emails.
+## Environment Setup (.env)
 
-Triggers webhooks for external automation.
+```
+GEMINI_API_KEY='Your Gemini API key'
+SlackWebhook_URL='Your Slack webhook URL'
+INTERESTED_WEBHOOK_URL='Webhook URL for Interested emails'
+```
 
-AI-Powered Suggested Replies
+## Running Locally
 
-Stores product and outreach agenda in a vector database.
+### Prerequisites
+- Node.js v18+  
+- Docker Desktop  
+- IMAP-enabled Gmail with App password  
+- Postman (optional)
 
-Uses RAG (Retrieval-Augmented Generation) with LLMs for reply suggestions.
+### Steps
+1. Clone repo:
+```
+git clone https://github.com/poornima-s-dev/Onebox_for_Emails.git
+cd OneBox_Assignment
+```
+2. Install dependencies:
+```
+npm install
+```
+3. Run Elasticsearch:
+```
+docker-compose pull
+docker-compose up
+```
+4. Start server:
+```
+npm run dev
+```
 
-Frontend Interface
+## API Endpoints
 
-Display emails with folder/account filters.
+### Add IMAP Account
+```
+POST /api/accounts
+```
+Body:
+```json
+{
+  "email": "your@gmail.com",
+  "password": "your_app_password",
+  "host": "imap.gmail.com",
+  "port": 993,
+  "secure": true
+}
+```
 
-Show AI-based email categorization.
+### Suggest AI Reply
+```
+POST /api/reply/suggest
+```
+Body:
+```json
+{
+  "subject": "Let's schedule an interview",
+  "body": "You've been shortlisted. Please share your availability.",
+  "email": "hr@example.com"
+}
+```
 
-Tech Stack
+## Common Issues
+- Gmail IMAP login: use App password & 2FA  
+- Elasticsearch: ensure Docker is running & port 9200 is free  
+- Categorization: check Gemini API key
 
-Node.js with Express
+## Demo
+[OneBox Demo](https://drive.google.com/file/d/1sYBR3JsdO_wWkNVQtHjTiYtnaACnDuri/view?usp=sharing)
 
-TypeScript
-
-Dotenv
-
-LangChain + Chroma
-
-IMAP (imapflow)
-
-Elasticsearch via Docker
-
-OpenAI/Gemini API
-
-Slack Webhooks
-
-Mailparser
-
+## Credits
+- Project structure & error handling assisted by ChatGPT  
+- References: Slack Webhooks, Chroma & VectorDB, LangChain
