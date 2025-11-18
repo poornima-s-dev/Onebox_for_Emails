@@ -34,31 +34,6 @@ A feature-rich email management system with real-time email sync, AI categorizat
 
 Node.js, TypeScript, Express, Dotenv, LangChain + Chroma, IMAP (`imapflow`), Elasticsearch, OpenAI/Gemini API, Slack Webhooks, Mailparser
 
-## Folder Structure
-
-```
-backend/
- ├─ src/
- │  ├─ controllers/
- │  ├─ routes/
- │  ├─ imap/
- │  ├─ services/
- │  └─ utils/
- └─ index.ts
-.env
-package.json
-tsconfig.json
-docker-compose.yml
-```
-
-## Environment Setup (.env)
-
-```
-GEMINI_API_KEY='Your Gemini API key'
-SlackWebhook_URL='Your Slack webhook URL'
-INTERESTED_WEBHOOK_URL='Webhook URL for Interested emails'
-```
-
 ## Running Locally
 
 ### Prerequisites
@@ -85,36 +60,6 @@ docker-compose up
 4. Start server:
 ```
 npm run dev
-```
-
-## API Endpoints
-
-### Add IMAP Account
-```
-POST /api/accounts
-```
-Body:
-```json
-{
-  "email": "your@gmail.com",
-  "password": "your_app_password",
-  "host": "imap.gmail.com",
-  "port": 993,
-  "secure": true
-}
-```
-
-### Suggest AI Reply
-```
-POST /api/reply/suggest
-```
-Body:
-```json
-{
-  "subject": "Let's schedule an interview",
-  "body": "You've been shortlisted. Please share your availability.",
-  "email": "hr@example.com"
-}
 ```
 
 ## Common Issues
